@@ -1,5 +1,7 @@
 # three_charts.py
 
+import plotly.graph_objects as go
+
 #
 # CHART 1 (PIE)
 #
@@ -10,9 +12,21 @@ pie_data = [
     {"company": "Company Z", "market_share": 0.15}
 ]
 
+labels = [row["company"] for row in pie_data]
+values = [row["market_share"] for row in pie_data]
+
 print("----------------")
 print("GENERATING PIE CHART...")
 print(pie_data) # TODO: create a pie chart based on the pie_data
+
+fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+fig.show()
+
+
+
+#labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
+#values = [4500, 2500, 1053, 500]
+
 
 #
 # CHART 2 (LINE)
