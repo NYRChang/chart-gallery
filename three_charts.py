@@ -1,5 +1,6 @@
 # three_charts.py
 
+import plotly
 import plotly.graph_objects as go
 
 #
@@ -14,14 +15,16 @@ pie_data = [
 
 labels = [row["company"] for row in pie_data]
 values = [row["market_share"] for row in pie_data]
+colors = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen']
 
-print("----------------")
-print("GENERATING PIE CHART...")
-print(pie_data) # TODO: create a pie chart based on the pie_data
+#print("----------------")
+#print("GENERATING PIE CHART...")
+#print(pie_data) # TODO: create a pie chart based on the pie_data
 
-fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent', insidetextorientation='radial', hole = .3, pull = [0,0,0.2])])
+fig.update_traces(textposition='inside', hoverinfo='label+percent', textinfo='value', textfont_size=20,
+                  marker=dict(colors=colors, line=dict(color='#000000', width=2)))
 fig.show()
-
 
 
 #labels = ['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen']
@@ -43,11 +46,16 @@ line_data = [
     {"date": "2019-01-08", "stock_price_usd": 162.62},
 ]
 
-print("----------------")
-print("GENERATING LINE GRAPH...")
-print(line_data) # TODO: create a line graph based on the line_data
+#print("----------------")
+#print("GENERATING LINE GRAPH...")
+#print(line_data) # TODO: create a line graph based on the line_data
 
-#
+plotly.offline.plot({
+    "data": [go.Scatter(x = [row["date"] for row in line_data] , y = [row["stock_price_usd"] for row in line_data])],
+    "layout": go.Layout(title="Stock Performance (USD)")
+}, auto_open=True)
+
+
 # CHART 3 (HORIZONTAL BAR)
 #
 
@@ -61,6 +69,13 @@ bar_data = [
     {"genre": "Romantic Comedy", "viewers": 121212}
 ]
 
-print("----------------")
-print("GENERATING BAR CHART...")
-print(bar_data) # TODO: create a horizontal bar chart based on the bar_data
+#print("----------------")
+#print("GENERATING BAR CHART...")
+#print(bar_data) # TODO: create a horizontal bar chart based on the bar_data
+
+movie_genre = [row["genre"] for row in bar_data]
+num_viewers = [row["viewers"] for row in bar_data]
+
+fig = go.Figure([go.Bar(x=num_viewers, y= movie_genre, orientation='h', text = num_viewers, textposition='auto')])
+fig.update_layout(xaxis_tickangle = -45)
+fig.show()
